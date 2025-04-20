@@ -12,24 +12,14 @@ class Utils {
     return MediaQuery.of(context).size.width;
   }
 
-  static double horizontalPadding() => 22.w;
-  static double topPadding() => 60.w;
-
-  static ThemeData getSplash(BuildContext context) =>
-      Theme.of(context).copyWith(
-        highlightColor: Colors.transparent,
-        splashColor: Colors.transparent,
-        hoverColor: Colors.transparent,
-      );
-
   static void showToast(String message,
-      {ToastGravity gravity = ToastGravity.BOTTOM}) {
+      {ToastGravity gravity = ToastGravity.BOTTOM,  Color color =  AppColors.primaryColor, }) {
     Fluttertoast.showToast(
       msg: message,
       toastLength: Toast.LENGTH_SHORT,
       gravity: gravity,
       timeInSecForIosWeb: 1,
-      backgroundColor: AppColors.primaryColor,
+      backgroundColor: color,
       textColor: Colors.white,
       fontSize: 16.0,
     );

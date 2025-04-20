@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:permissions_app/core/enums/data_source_enum.dart';
 import 'package:permissions_app/core/util/app_colors.dart';
 import 'package:permissions_app/core/util/app_routes.dart';
+import 'package:permissions_app/core/util/app_strings.dart';
 import 'package:permissions_app/core/util/app_text.dart';
+import 'package:permissions_app/core/util/utils.dart';
+import 'package:permissions_app/features/auth/presentation/provider/data_source_provider.dart';
+import 'package:permissions_app/features/auth/presentation/view/summery_screen.dart';
 import 'package:permissions_app/features/widgets/app_primary_button.dart';
 import 'package:permissions_app/features/widgets/custom_app_bar.dart';
 import 'package:provider/provider.dart';
@@ -31,17 +37,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                   Expanded(
                     child: SingleChildScrollView(
                       child: AppText(
-                        '''This app requires access to certain device permissions, such as location, contacts, and storage, to provide a better user experience. These permissions help us enhance functionality like GPS navigation, in-app contact management, and secure file access.
-
-We value your privacy and ensure that any data collected is used solely to improve app performance and deliver personalized services. We do not sell or share your personal information with third parties without your explicit consent.
-
-By using this app, you agree to the collection and use of your information in accordance with this policy. You can revoke permissions at any time via your device settings.
-
-This app requires access to certain device permissions, such as location, contacts, and storage, to provide a better user experience. These permissions help us enhance functionality like GPS navigation, in-app contact management, and secure file access.
-
-We value your privacy and ensure that any data collected is used solely to improve app performance and deliver personalized services. We do not sell or share your personal information with third parties without your explicit consent.
-
-By using this app, you agree to the collection and use of your information in accordance with this policy. You can revoke permissions at any time via your device settings.''',
+                        LocaleKeys.fullPrivacyPolicyText,
                         15.sp,
                         FontWeight.w400,
                         color: AppColors.black,
@@ -53,7 +49,7 @@ By using this app, you agree to the collection and use of your information in ac
                       child: AppPrimaryButton(
                         () => AppRoutes.pop(context),
                         AppText(
-                          "OK",
+                          LocaleKeys.ok,
                           18.sp,
                           FontWeight.w500,
                           color: AppColors.whiteColor,
@@ -77,52 +73,24 @@ By using this app, you agree to the collection and use of your information in ac
 
     return Scaffold(
       backgroundColor: AppColors.scaffoldBgColor,
-      appBar: const CustomAppBar(title: 'Privacy Policy'),
+      appBar: const CustomAppBar(title: LocaleKeys.privacyPolicyTitle),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 20.h),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             AppText(
-              'Privacy Policy Agreement',
+              LocaleKeys.privacyPolicyAgreement,
               20.sp,
               FontWeight.w600,
               color: AppColors.primaryColor,
             ),
             16.verticalSpace,
             AppText(
-              'Please review and agree to our Privacy Policy and Terms of Service.',
+              LocaleKeys.reviewAndAgreePolicy,
               16.sp,
               FontWeight.w400,
               color: AppColors.black,
-            ),
-            20.verticalSpace,
-            RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'View our ',
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      color: AppColors.black,
-                    ),
-                  ),
-                  WidgetSpan(
-                    child: GestureDetector(
-                      onTap: () => _showFullPolicyPopup(context),
-                      child: Text(
-                        'Privacy Policy',
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          color: AppColors.primaryColor,
-                          decoration: TextDecoration.underline,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
             ),
             24.verticalSpace,
             Row(
@@ -149,24 +117,62 @@ By using this app, you agree to the collection and use of your information in ac
                 ),
                 10.horizontalSpace,
                 Expanded(
-                  child: AppText(
-                    'I agree to the Privacy Policy and Terms of Service.',
-                    14.sp,
-                    FontWeight.w400,
-                    color: AppColors.black,
+                  child: Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      AppText(LocaleKeys.agreeWith, 12.sp, FontWeight.normal),
+                      GestureDetector(
+                        onTap: () => _showFullPolicyPopup(context),
+                        child: AppText(
+                          LocaleKeys.privacyPolicy,
+                          12.sp,
+                          FontWeight.w600,
+                          color: AppColors.primaryColor,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                      AppText(' & ', 13.sp, FontWeight.normal),
+                      GestureDetector(
+                        onTap: () => _showFullPolicyPopup(context),
+                        child: AppText(
+                          LocaleKeys.termsAndConditions,
+                          12.sp,
+                          FontWeight.w600,
+                          color: AppColors.primaryColor,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
             const Spacer(),
             AppPrimaryButton(
-              () {
+              () async {
                 if (provider.agreed) {
-                  // Navigator.pushNamed(context, '/summary');
+                  final controller = Provider.of<DataSourceController>(context, listen: false);
+                     final ds = controller.selectedSource;
+                if (ds == DataSourceEnum.mediaAccess) {
+                  final ok = await controller.requestGalleryPermission();
+                  if (!ok) {
+                    Utils.showToast(
+                   LocaleKeys.permissionDenied,  
+                      color: Colors.red,
+                    );
+                    return;
+                  }
+                  await controller.loadAllImages();
+                  AppRoutes.push(context, PageTransitionType.rightToLeft,
+                      UserSummaryScreen());
+                }
+                } else {
+                  Utils.showToast(LocaleKeys.acceptPrivacyPolicyWarning,
+                      color: Colors.red);
                 }
               },
               AppText(
-                "Generate Summary",
+                LocaleKeys.generateSummary,
                 18.sp,
                 FontWeight.w600,
                 color: AppColors.whiteColor,

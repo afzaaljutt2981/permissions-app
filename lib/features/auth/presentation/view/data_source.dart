@@ -6,8 +6,10 @@ import 'package:permissions_app/core/util/app_colors.dart';
 import 'package:permissions_app/core/util/app_routes.dart';
 import 'package:permissions_app/core/util/app_strings.dart';
 import 'package:permissions_app/core/util/app_text.dart';
+import 'package:permissions_app/core/util/utils.dart';
 import 'package:permissions_app/features/auth/presentation/provider/data_source_provider.dart';
 import 'package:permissions_app/features/auth/presentation/view/privacy_policy.dart';
+import 'package:permissions_app/features/auth/presentation/view/summery_screen.dart';
 import 'package:permissions_app/features/widgets/animated_radio_button.dart';
 import 'package:permissions_app/features/widgets/app_primary_button.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +24,7 @@ class DataSourcesScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: AppColors.scaffoldBgColor,
-      appBar: CustomAppBar(title: 'Select Data Source'),
+      appBar: CustomAppBar(title: LocaleKeys.selectDataSourceTitle),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.sp),
         child: Column(
@@ -30,12 +32,12 @@ class DataSourcesScreen extends StatelessWidget {
           children: [
             30.verticalSpace,
             AppText(
-              'Choose your preferred data sources to proceed:',
+              LocaleKeys.choosePreferredDataSource,
               20.sp,
               FontWeight.w600,
               color: AppColors.primaryColor,
             ),
-        15.verticalSpace,
+            15.verticalSpace,
             ...DataSourceEnum.values.map(
               (source) => AnimatedRadioButton(
                 label: source.label,
@@ -46,10 +48,36 @@ class DataSourcesScreen extends StatelessWidget {
             ),
             const Spacer(),
             AppPrimaryButton(
-              () {
-                controller.selectedSource == null
-                    ? null
-                    : AppRoutes.push(context, PageTransitionType.rightToLeft, PrivacyPolicyScreen());
+              () async {
+
+
+                if(controller.selectedSource != null ){
+    AppRoutes.push(context, PageTransitionType.rightToLeft,
+                      PrivacyPolicyScreen());
+                }
+                else{
+            Utils.showToast(
+                   LocaleKeys.selectDataSourceWarning,
+                      color: Colors.red,
+                    );
+                }
+
+
+                // final ds = controller.selectedSource;
+                // if (ds == DataSourceEnum.mediaAccess) {
+                //   final ok = await controller.requestGalleryPermission();
+                //   if (!ok) {
+                //     Utils.showToast(
+                //       'Please allow photo access in Settings',
+                //       color: Colors.red,
+                //     );
+                //     return;
+                //   }
+                //   await controller.loadAllImages();
+                //   AppRoutes.push(context, PageTransitionType.rightToLeft,
+                //       PrivacyPolicyScreen());
+                // }
+
               },
               AppText(
                 LocaleKeys.continueText,
@@ -58,7 +86,7 @@ class DataSourcesScreen extends StatelessWidget {
                 color: AppColors.whiteColor,
               ),
             ),
-           35.verticalSpace,
+            35.verticalSpace,
           ],
         ),
       ),

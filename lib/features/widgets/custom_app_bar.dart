@@ -12,6 +12,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      surfaceTintColor: Colors.transparent,
       automaticallyImplyLeading: false,
       backgroundColor: AppColors.scaffoldBgColor,
       title: Row(
@@ -37,12 +38,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
           AppText(title, 22.sp, FontWeight.w500),
-          SizedBox(width: 40.sp)  // Empty space for alignment consistency
+          SizedBox(width: 40.sp) // Empty space for alignment consistency
         ],
       ),
     );
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight); // Size of the AppBar
+  Size get preferredSize =>
+      Size.fromHeight(kToolbarHeight); // Size of the AppBar
 }
