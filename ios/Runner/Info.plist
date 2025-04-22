@@ -2,17 +2,52 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<!-- Facebook Schemes -->
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+		<!-- Google Schemes -->
+		<string>google</string>
+		<string>com-google-gidconsent</string>
+		<string>com.google.gppconsent</string>
+	</array>
 
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<!-- Facebook App ID -->
+				<string>fb10084543068301498</string>
+				<!-- Google Reverse Client ID -->
+				<string>com.googleusercontent.apps.950374009589-54tmo5ue3sihime4bmaavpk2g8a4eg6u</string>
+			</array>
+		</dict>
+	</array>
 
-  <key>NSPhotoLibraryUsageDescription</key>
-<string>We need access to your photo library to show your images.</string>
-<key>NSPhotoLibraryAddUsageDescription</key>
-<string>We need to save images back to your library (if you choose to).</string>
-<key>NSAppTransportSecurity</key>
+	<key>FacebookAppID</key>
+	<string>10084543068301498</string>
+	<key>FacebookClientToken</key>
+	<string>d8247c0b8d39fa2297c378d0d41e7947</string>
+	<key>FacebookDisplayName</key>
+	<string>APP-NAME</string>
 
-  <key>NSAllowsArbitraryLoads</key>
+	<key>GIDClientID</key>
+	<string>950374009589-54tmo5ue3sihime4bmaavpk2g8a4eg6u.apps.googleusercontent.com</string>
 
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need access to your photo library to show your images.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>We need to save images back to your library (if you choose to).</string>
 
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
