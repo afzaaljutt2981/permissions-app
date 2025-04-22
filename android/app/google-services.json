@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "950374009589",
+    "project_id": "permissions-app-5b16e",
+    "storage_bucket": "permissions-app-5b16e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:950374009589:android:229498e5c182ba02dfd3bc",
+        "android_client_info": {
+          "package_name": "com.example.permissions_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLa6k7IFBtKU4P1D4vVygBc_-DkYPd9PE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:950374009589:android:0367841e3f428ab0dfd3bc",
+        "android_client_info": {
+          "package_name": "com.permissions.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLa6k7IFBtKU4P1D4vVygBc_-DkYPd9PE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

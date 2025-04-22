@@ -1,13 +1,12 @@
-// lib/features/auth/presentation/view/gallery_screen.dart
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:permissions_app/core/enums/data_source_enum.dart';
 import 'package:permissions_app/features/auth/presentation/provider/privacy_policy_provider.dart';
 import 'package:permissions_app/features/auth/presentation/provider/user_info_controller.dart.dart';
+import 'package:permissions_app/features/widgets/google_facebook_user_widget.dart';
+import 'package:permissions_app/features/widgets/media_access_grid_widget.dart';
 import 'package:permissions_app/features/widgets/user_header_card.dart';
-import 'package:photo_manager/photo_manager.dart';
 import 'package:provider/provider.dart';
-
 import 'package:permissions_app/core/util/app_colors.dart';
 import 'package:permissions_app/core/util/app_strings.dart';
 import 'package:permissions_app/core/util/app_text.dart';
@@ -21,8 +20,7 @@ class UserSummaryScreen extends StatelessWidget {
     final dataSourceController = context.watch<DataSourceController>();
     final privacyPolicyProvider = context.watch<PrivacyPolicyProvider>();
     final userInfoController = context.watch<UserInfoController>();
-    final images = dataSourceController.images;
-
+    final ds = dataSourceController.selectedSource;
     return Scaffold(
       backgroundColor: AppColors.scaffoldBgColor,
       appBar: const CustomAppBar(title: LocaleKeys.summaryTitle),
@@ -99,56 +97,38 @@ class UserSummaryScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SliverToBoxAdapter(
-                child: SizedBox(
-              height: 20,
-            )),
-            images.isEmpty
-                ? SliverFillRemaining(
-                    hasScrollBody: false,
-                    child: Center(
-                      child: AppText(
-                        LocaleKeys.noImages,
-                        15,
-                        FontWeight.normal,
-                      ),
-                    ),
-                  )
-                : SliverPadding(
-                    padding: EdgeInsets.all(4.sp),
-                    sliver: SliverGrid(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        mainAxisSpacing: 6.sp,
-                        crossAxisSpacing: 6.sp,
-                      ),
-                      delegate: SliverChildBuilderDelegate(
-                        (ctx, index) {
-                          final asset = images[index];
-                          return FutureBuilder<Uint8List?>(
-                            future: asset.thumbnailDataWithSize(
-                              const ThumbnailSize(200, 200),
-                            ),
-                            builder: (c, snap) {
-                              if (snap.connectionState ==
-                                      ConnectionState.done &&
-                                  snap.hasData) {
-                                return ClipRRect(
-                                  borderRadius: BorderRadius.circular(5.sp),
-                                  child: Image.memory(
-                                    snap.data!,
-                                    fit: BoxFit.cover,
-                                  ),
-                                );
-                              }
-                              return Container(color: Colors.grey.shade300);
-                            },
-                          );
-                        },
-                        childCount: images.length,
-                      ),
-                    ),
-                  ),
+            if (ds == DataSourceEnum.mediaAccess)
+              SliverToBoxAdapter(
+                  child: SizedBox(
+                height: 20.h,
+              )),
+            if (ds != DataSourceEnum.mediaAccess)
+              SliverToBoxAdapter(
+                  child: Padding(
+                padding: EdgeInsets.only(top: 20.h, bottom: 10.h),
+                child: AppText(
+                  ds == DataSourceEnum.gmail
+                      ? LocaleKeys.userGoogleLoginHeader
+                      : ds == DataSourceEnum.facebook
+                          ? LocaleKeys.userFacebookLoginHeader
+                          : LocaleKeys.userAppleLoginHeader,
+                  16,
+                  FontWeight.w600,
+                  color: AppColors.primaryColor,
+                ),
+              )),
+            if (ds == DataSourceEnum.mediaAccess)
+              const MediaAccessGridWidget()
+            else if (ds == DataSourceEnum.gmail ||
+                ds == DataSourceEnum.facebook)
+              const GoogleFaceebokUserSummaryWidget()
+            else
+              SliverToBoxAdapter(
+                child: Center(
+                  child:
+                      AppText( LocaleKeys.noSourceSelected , 15, FontWeight.normal),
+                ),
+              ),
           ],
         ),
       ),

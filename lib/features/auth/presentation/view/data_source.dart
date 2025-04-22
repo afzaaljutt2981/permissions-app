@@ -9,7 +9,6 @@ import 'package:permissions_app/core/util/app_text.dart';
 import 'package:permissions_app/core/util/utils.dart';
 import 'package:permissions_app/features/auth/presentation/provider/data_source_provider.dart';
 import 'package:permissions_app/features/auth/presentation/view/privacy_policy.dart';
-import 'package:permissions_app/features/auth/presentation/view/summery_screen.dart';
 import 'package:permissions_app/features/widgets/animated_radio_button.dart';
 import 'package:permissions_app/features/widgets/app_primary_button.dart';
 import 'package:provider/provider.dart';
@@ -61,23 +60,6 @@ class DataSourcesScreen extends StatelessWidget {
                       color: Colors.red,
                     );
                 }
-
-
-                // final ds = controller.selectedSource;
-                // if (ds == DataSourceEnum.mediaAccess) {
-                //   final ok = await controller.requestGalleryPermission();
-                //   if (!ok) {
-                //     Utils.showToast(
-                //       'Please allow photo access in Settings',
-                //       color: Colors.red,
-                //     );
-                //     return;
-                //   }
-                //   await controller.loadAllImages();
-                //   AppRoutes.push(context, PageTransitionType.rightToLeft,
-                //       PrivacyPolicyScreen());
-                // }
-
               },
               AppText(
                 LocaleKeys.continueText,
