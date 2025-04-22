@@ -20,16 +20,6 @@ class AppRoutes {
             (route) => false);
   }
 
-  static void popUntil(context, transition,Widget page) {
-    Navigator.popUntil(
-        context,
-        ModalRoute.withName(page.toString()));
-  }
-
-  static void pushReplacement(context, transition, Widget page) {
-    Navigator.pushReplacement(context, PageTransition(type: transition, child: page));
-  }
-
 
   static void popAndPush(context, transition, Widget page) {
     Navigator.popAndPushNamed(context, PageTransition(type: transition, child: page).toString());

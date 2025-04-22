@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:permissions_app/core/enums/data_source_enum.dart';
@@ -150,22 +151,35 @@ class PrivacyPolicyScreen extends StatelessWidget {
             const Spacer(),
             AppPrimaryButton(
               () async {
+                 await FacebookAuth.instance.logOut(
+                 );
                 if (provider.agreed) {
-                  final controller = Provider.of<DataSourceController>(context, listen: false);
-                     final ds = controller.selectedSource;
-                if (ds == DataSourceEnum.mediaAccess) {
-                  final ok = await controller.requestGalleryPermission();
-                  if (!ok) {
-                    Utils.showToast(
-                   LocaleKeys.permissionDenied,  
-                      color: Colors.red,
-                    );
-                    return;
+                  final controller =
+                      Provider.of<DataSourceController>(context, listen: false);
+                  final ds = controller.selectedSource;
+                  if (ds == DataSourceEnum.mediaAccess) {
+                    final ok = await controller.requestGalleryPermission();
+                    if (!ok) {
+                      Utils.showToast(
+                        LocaleKeys.permissionDenied,
+                        color: Colors.red,
+                      );
+                      return;
+                    }
+                    await controller.loadAllImages();
+                    AppRoutes.push(context, PageTransitionType.rightToLeft,
+                        UserSummaryScreen());
+                  } else if (ds == DataSourceEnum.gmail)  {
+                    await controller.loginWithGoogle(context);
                   }
-                  await controller.loadAllImages();
-                  AppRoutes.push(context, PageTransitionType.rightToLeft,
-                      UserSummaryScreen());
-                }
+                  else if (ds == DataSourceEnum.appleId)  {
+                    await controller.loginWithApple(context);
+                  }
+                   else if (ds == DataSourceEnum.facebook)  {
+                    await controller.loginWithFacebook(context);
+                  }
+                  
+                  
                 } else {
                   Utils.showToast(LocaleKeys.acceptPrivacyPolicyWarning,
                       color: Colors.red);

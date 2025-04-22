@@ -13,16 +13,10 @@ Future<void> main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-            create: (_) => SplashController()),
-        ChangeNotifierProvider(
-            create: (_) => UserInfoController()),
- ChangeNotifierProvider(
-            create: (_) => DataSourceController()),
- ChangeNotifierProvider(
-            create: (_) => PrivacyPolicyProvider()),
-            
-            
+        ChangeNotifierProvider(create: (_) => SplashController()),
+        ChangeNotifierProvider(create: (_) => UserInfoController()),
+        ChangeNotifierProvider(create: (_) => DataSourceController()),
+        ChangeNotifierProvider(create: (_) => PrivacyPolicyProvider()),
       ],
       child: const MyApp(),
     ),

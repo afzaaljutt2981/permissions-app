@@ -45,11 +45,13 @@ We value your privacy and ensure that any data collected is used solely to impro
 
 By using this app, you agree to the collection and use of your information in accordance with this policy. You can revoke permissions at any time via your device settings.''';
 
-// summary
-
+// summary screen
   static const summaryTitle = "User Summary";
   static const noImages = "No images found";
   static const userInfoHeader = "User Info";
+  static const userGoogleLoginHeader = "Google Login Data";
+  static const userAppleLoginHeader = "Apple Login Data";
+  static const userFacebookLoginHeader = "Facebook Login Data";
   static const privacyPolicyHeader = "Privacy Policy";
   static const dataSourceHeader = "Data Source";
   static const emailLabel = "Email:";
@@ -58,4 +60,11 @@ By using this app, you agree to the collection and use of your information in ac
   static const genderLabel = "Gender:";
   static const statusLabel = "Status:";
   static const sourceLabel = "Source:";
+    static const noSourceSelected = "No data source selected";
+    static const noUserData = "No user data";
+
+// DataSourceController
+  static const failedGoogleLogin = 'Google login failed';
+  static const failedFbLogin = 'Facebook login failed';
+  static const failedAppleLogin = 'Apple login failed';
 }

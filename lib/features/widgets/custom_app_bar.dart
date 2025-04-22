@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:permissions_app/core/util/app_colors.dart';
 import 'package:permissions_app/core/util/app_text.dart';
 import 'package:permissions_app/core/util/app_routes.dart';
+import 'package:permissions_app/features/auth/presentation/provider/data_source_provider.dart';
+import 'package:permissions_app/features/splash/view/splash_view.dart';
+import 'package:provider/provider.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key, required this.title});
@@ -38,7 +42,17 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
           AppText(title, 22.sp, FontWeight.w500),
-          SizedBox(width: 40.sp) // Empty space for alignment consistency
+          
+          title == 'User Summary' ? 
+          GestureDetector(
+            onTap: (){
+               final controller =
+                      Provider.of<DataSourceController>(context, listen: false);
+                      controller.logout();
+             AppRoutes.pushAndRemoveUntil(context, PageTransitionType.rightToLeft, SplashView());
+            },
+            child: Icon(Icons.logout_outlined, color: AppColors.iconLightBlack, size: 30.sp,)):
+          SizedBox(width: 40.sp)
         ],
       ),
     );
@@ -46,5 +60,5 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize =>
-      Size.fromHeight(kToolbarHeight); // Size of the AppBar
+      Size.fromHeight(kToolbarHeight); 
 }
